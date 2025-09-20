@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Carousel Example</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .carousel-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .slide {
+            min-width: 100%;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            color: white;
+            text-align: center;
+        }
+        
+        .slide h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .slide p {
+            font-size: 1.2rem;
+            max-width: 80%;
+            line-height: 1.6;
+        }
+        
+        .slide-number {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+        
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .prev {
+            left: 15px;
+        }
+        
+        .next {
+            right: 15px;
+        }
+        
+        .indicators {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+        
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .indicator.active {
+            background: white;
+            transform: scale(1.2);
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .control-button {
+            padding: 10px 20px;
+            background: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .control-button:hover {
+            background: #f5f5f5;
+            transform: translateY(-2px);
+        }
+        
+        .explanation {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .explanation h3 {
+            color: #6a11cb;
+            margin-bottom: 15px;
+        }
+        
+        .explanation p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .explanation ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .explanation li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>How Carousels Work</h1>
+        
+        <div class="carousel-container">
+            <div class="carousel">
+                <div class="slide" style="background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);">
+                    <div class="slide-number">1</div>
+                    <h2>Slide Transition</h2>
+                    <p>Carousels transition between slides either automatically or through user interaction.</p>
+                </div>
+                <div class="slide" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="slide-number">2</div>
+                    <h2>Navigation Controls</h2>
+                    <p>Users can navigate using arrow buttons, indicator dots, or by swiping on touch devices.</p>
+                </div>
+                <div class="slide" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <div class="slide-number">3</div>
+                    <h2>Responsive Design</h2>
+                    <p>Modern carousels adapt to different screen sizes and devices for optimal viewing.</p>
+                </div>
+                <div class="slide" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <div class="slide-number">4</div>
+                    <h2>Auto-Play Option</h2>
+                    <p>Many carousels automatically rotate through slides, often with a pause on hover.</p>
+                </div>
+                <div class="slide" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                    <div class="slide-number">5</div>
+                    <h2>Accessibility</h2>
+                    <p>Good carousels include keyboard navigation and ARIA attributes for screen readers.</p>
+                </div>
+            </div>
+            
+            <button class="nav-button prev">❮</button>
+            <button class="nav-button next">❯</button>
+            
+            <div class="indicators">
+                <div class="indicator active"></div>
+                <div class="indicator"></div>
+                <div class="indicator"></div>
+                <div class="indicator"></div>
+                <div class="indicator"></div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="control-button" id="prev-btn">Previous</button>
+            <button class="control-button" id="next-btn">Next</button>
+            <button class="control-button" id="auto-play-btn">Auto Play: On</button>
+        </div>
+        
+        <div class="explanation">
+            <h3>How This Carousel Works</h3>
+            <p>This carousel demonstrates several key concepts:</p>
+            <ul>
+                <li><strong>Slide Container:</strong> The carousel is a container with overflow hidden that holds all slides</li>
+                <li><strong>Slide Positioning:</strong> Slides are arranged horizontally and moved using CSS transforms</li>
+                <li><strong>Navigation:</strong> Buttons and indicators change the current slide position</li>
+                <li><strong>Auto-Play:</strong> JavaScript automatically advances slides at regular intervals</li>
+                <li><strong>Responsive Design:</strong> The carousel adapts to different screen sizes</li>
+            </ul>
+            <p>Try using the navigation buttons, indicator dots, or auto-play toggle to see how it works!</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const carousel = document.querySelector('.carousel');
+            const slides = document.querySelectorAll('.slide');
+            const indicators = document.querySelectorAll('.indicator');
+            const prevButton = document.querySelector('.prev');
+            const nextButton = document.querySelector('.next');
+            const prevBtnControl = document.getElementById('prev-btn');
+            const nextBtnControl = document.getElementById('next-btn');
+            const autoPlayBtn = document.getElementById('auto-play-btn');
+            
+            let currentIndex = 0;
+            let autoPlayInterval;
+            let isAutoPlay = true;
+            
+            // Initialize the carousel
+            updateCarousel();
+            
+            // Set up auto-play
+            startAutoPlay();
+            
+            // Event listeners for navigation buttons
+            prevButton.addEventListener('click', goToPrevSlide);
+            nextButton.addEventListener('click', goToNextSlide);
+            prevBtnControl.addEventListener('click', goToPrevSlide);
+            nextBtnControl.addEventListener('click', goToNextSlide);
+            
+            // Event listeners for indicators
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    goToSlide(index);
+                });
+            });
+            
+            // Auto-play toggle
+            autoPlayBtn.addEventListener('click', () => {
+                isAutoPlay = !isAutoPlay;
+                autoPlayBtn.textContent = isAutoPlay ? 'Auto Play: On' : 'Auto Play: Off';
+                
+                if (isAutoPlay) {
+                    startAutoPlay();
+                } else {
+                    stopAutoPlay();
+                }
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    goToPrevSlide();
+                } else if (e.key === 'ArrowRight') {
+                    goToNextSlide();
+                }
+            });
+            
+            // Swipe support for touch devices
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            carousel.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, false);
+            
+            carousel.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, false);
+            
+            function handleSwipe() {
+                const minSwipeDistance = 50;
+                
+                if (touchEndX < touchStartX && touchStartX - touchEndX > minSwipeDistance) {
+                    goToNextSlide();
+                }
+                
+                if (touchEndX > touchStartX && touchEndX - touchStartX > minSwipeDistance) {
+                    goToPrevSlide();
+                }
+            }
+            
+            function goToPrevSlide() {
+                currentIndex = (currentIndex === 0) ? slides.length - 1 : currentIndex - 1;
+                updateCarousel();
+                resetAutoPlay();
+            }
+            
+            function goToNextSlide() {
+                currentIndex = (currentIndex === slides.length - 1) ? 0 : currentIndex + 1;
+                updateCarousel();
+                resetAutoPlay();
+            }
+            
+            function goToSlide(index) {
+                currentIndex = index;
+                updateCarousel();
+                resetAutoPlay();
+            }
+            
+            function updateCarousel() {
+                // Move the carousel to show the current slide
+                carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+                
+                // Update indicators
+                indicators.forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === currentIndex);
+                });
+            }
+            
+            function startAutoPlay() {
+                if (isAutoPlay) {
+                    autoPlayInterval = setInterval(goToNextSlide, 4000);
+                }
+            }
+            
+            function stopAutoPlay() {
+                clearInterval(autoPlayInterval);
+            }
+            
+            function resetAutoPlay() {
+                stopAutoPlay();
+                startAutoPlay();
+            }
+        });
+    </script>
+</body>
+</html>
